@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brave Real World Prod. - Digital Production Agency</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* Анимированный фон */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Заголовок */
+        .header {
+            margin-bottom: 80px;
+            position: relative;
+            text-align: center;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: auto;
+            margin: 0 auto 30px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+            animation: logoGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            from { 
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+                transform: scale(1);
+            }
+            to { 
+                filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.15));
+                transform: scale(1.02);
+            }
+        }
+
+        .logo {
+            font-size: 42px;
+            font-weight: 100;
+            letter-spacing: -2px;
+            color: #fff;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, #808080 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: #666;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* Секция компетенций */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 1px;
+            background: #fff;
+        }
+
+        .competencies-grid {
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+            height: 180px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px 60px;
+            cursor: grab;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .competencies-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .competencies-grid:active {
+            cursor: grabbing;
+        }
+
+        .competencies-slider {
+            display: flex;
+            animation: slide 60s linear infinite;
+            gap: 80px;
+        }
+
+        .competencies-slider:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .competency-item {
+            min-width: 350px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .competency-item:hover {
+            transform: scale(1.05);
+        }
+
+        .competency-item::before {
+            display: none;
+        }
+
+        .competency-title {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 12px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .competency-desc {
+            font-size: 14px;
+            color: #999;
+            line-height: 1.6;
+        }
+
+        /* Клиенты */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .client-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .client-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .client-card:hover .client-header {
+            transform: scale(1.05);
+        }
+
+        .client-header {
+            position: relative;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, rgba(20,20,20,0.9) 0%, rgba(40,40,40,0.85) 100%);
+            overflow: hidden;
+            transition: transform 0.6s ease;
+            min-height: 140px;
+        }
+
+        .client-header-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            object-fit: cover;
+            object-position: right center;
+            width: 100%;
+            height: 100%;
+            filter: grayscale(100%) brightness(0.4);
+            z-index: 0;
+        }
+
+        .client-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(30,30,30,0.9) 0%, rgba(30,30,30,0.7) 40%, rgba(30,30,30,0.3) 70%, transparent 100%);
+            z-index: 1;
+            transition: all 0.6s ease;
+        }
+
+        .client-card:hover .client-header::after {
+            background: linear-gradient(to right, rgba(30,30,30,0.85) 0%, rgba(30,30,30,0.6) 40%, rgba(30,30,30,0.2) 70%, transparent 100%);
+        }
+
+        .client-name {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .client-project {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .client-body {
+            padding: 30px;
+        }
+
+        .client-description {
+            font-size: 14px;
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .client-tech {
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .tech-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 2px;
+            font-size: 11px;
+            color: #808080;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Статистика */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 100;
+            color: #fff;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, #606060 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Контакты */
+        .contact-section {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .contact-title {
+            font-size: 32px;
+            font-weight: 100;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .contact-info {
+            font-size: 18px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .contact-info a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            border-bottom-color: #fff;
+        }
+
+        /* Партнёрские СМИ */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .partner-item {
+            width: 100%;
+            max-width: 180px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partner-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        .partner-item:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+
+        .partner-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: rgba(0,0,0,0.9);
+            color: #fff;
+            font-size: 11px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .partner-item:hover .partner-name {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .partner-logo-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .partner-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: grayscale(100%) brightness(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .partner-item:hover .partner-logo {
+            filter: grayscale(0%) brightness(1);
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .logo {
+                font-size: 32px;
+            }
+
+            .tagline {
+                font-size: 14px;
+                letter-spacing: 4px;
+            }
+
+            .competencies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .clients-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .partners-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    
+    <div class="container">
+        <!-- Заголовок -->
+        <header class="header">
+            <img src="https://i.ibb.co.com/C3cHbTKp/logo.png" alt="Brave Real World Production" class="header-logo">
+            <h1 class="logo">Brave Real World Prod.</h1>
+            <p class="tagline">Агентство</p>
+        </header>
+
+        <!-- Компетенции -->
+        <section class="section">
+            <h2 class="section-title">Компетенции</h2>
+            <div class="competencies-grid" onwheel="this.scrollLeft += event.deltaY; event.preventDefault();">
+                <div class="competencies-slider">
+                    <div class="competency-item">
+                        <h3 class="competency-title">Продюсирование</h3>
+                        <p class="competency-desc">Полный цикл производства контента от идеи до реализации</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Брендинг и маркетинг</h3>
+                        <p class="competency-desc">Создание и развитие личных и корпоративных брендов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">SEO и продвижение</h3>
+                        <p class="competency-desc">Комплексное продвижение контента и оптимизация</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Политический маркетинг</h3>
+                        <p class="competency-desc">Стратегии для предвыборных кампаний и общественных проектов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Видеопродакшн</h3>
+                        <p class="competency-desc">Сценарии, операторская работа, монтаж, анимация</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Спичрайтинг</h3>
+                        <p class="competency-desc">Написание речей и текстов для публичных выступлений</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Стратегическое планирование</h3>
+                        <p class="competency-desc">Разработка долгосрочных стратегий развития организаций</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Консалтинг</h3>
+                        <p class="competency-desc">Экспертная поддержка и сопровождение проектов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Digital-стратегии</h3>
+                        <p class="competency-desc">Комплексное присутствие в цифровой среде</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Event-менеджмент</h3>
+                        <p class="competency-desc">Организация мероприятий и онлайн-событий</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Контент-стратегии</h3>
+                        <p class="competency-desc">Разработка и реализация контентных планов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Краудфандинг</h3>
+                        <p class="competency-desc">Построение систем финансирования и работа с донорами</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Медиа-аналитика</h3>
+                        <p class="competency-desc">Анализ эффективности и оптимизация стратегий</p>
+                    </div>
+                    <!-- Дублируем для бесшовной анимации -->
+                    <div class="competency-item">
+                        <h3 class="competency-title">Продюсирование</h3>
+                        <p class="competency-desc">Полный цикл производства контента от идеи до реализации</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Брендинг и маркетинг</h3>
+                        <p class="competency-desc">Создание и развитие личных и корпоративных брендов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">SEO и продвижение</h3>
+                        <p class="competency-desc">Комплексное продвижение контента и оптимизация</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Политический маркетинг</h3>
+                        <p class="competency-desc">Стратегии для предвыборных кампаний и общественных проектов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Видеопродакшн</h3>
+                        <p class="competency-desc">Сценарии, операторская работа, монтаж, анимация</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Спичрайтинг</h3>
+                        <p class="competency-desc">Написание речей и текстов для публичных выступлений</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Стратегическое планирование</h3>
+                        <p class="competency-desc">Разработка долгосрочных стратегий развития организаций</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Консалтинг</h3>
+                        <p class="competency-desc">Экспертная поддержка и сопровождение проектов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Digital-стратегии</h3>
+                        <p class="competency-desc">Комплексное присутствие в цифровой среде</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Event-менеджмент</h3>
+                        <p class="competency-desc">Организация мероприятий и онлайн-событий</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Контент-стратегии</h3>
+                        <p class="competency-desc">Разработка и реализация контентных планов</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Краудфандинг</h3>
+                        <p class="competency-desc">Построение систем финансирования и работа с донорами</p>
+                    </div>
+                    <div class="competency-item">
+                        <h3 class="competency-title">Медиа-аналитика</h3>
+                        <p class="competency-desc">Анализ эффективности и оптимизация стратегий</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Статистика -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Проектов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Клиентов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">30M+</div>
+                <div class="stat-label">Просмотров</div>
+            </div>
+			<div class="stat-item">
+                <div class="stat-number">10</div>
+                <div class="stat-label">лет в консалтинге <br> и медиаменеджементе</div>
+            </div>
+        </div>
+
+        <!-- Клиенты и кейсы -->
+        <section class="section">
+            <h2 class="section-title">Клиенты и успешные кейсы</h2>
+            <div class="clients-grid">
+			
+			    <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/Jw0LqdRD/ecb.jpg" alt="Eat Clean Bro" class="client-header-bg">
+                        <h3 class="client-name">Eat Clean Bro</h3>
+                        <p class="client-project">Маркетинговая кампания</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Уникальная маркетинговая кампания для производителя готовых наборов здорового питания. Позиционирование бренда на американском рынке, увеличение продаж на 180% за первые 6 месяцев кампании.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Маркетинг</span>
+                            <span class="tech-tag">США</span>
+                            <span class="tech-tag">Food-tech</span>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co.com/608JjCww/xmo.jpg" alt="Eksmo" class="client-header-bg">
+                        <h3 class="client-name">Издательство «Эксмо»</h3>
+                        <p class="client-project">Книжное производство</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Запуск и продвижение книжной новинки. Работа с федеральными СМИ, новыми медиа, соцсетями и офлайн-событиями. Прорыв в рекомендательных списках главных медиа: единственная книга российского автора в подборке "Медузы" за 2021. Тираж распродан.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">pr</span>
+                            <span class="tech-tag">integrated campaigns</span>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/C5vs0D4C/ybm.jpg" alt="YBM Agency" class="client-header-bg">
+                        <h3 class="client-name">YBM Agency</h3>
+                        <p class="client-project">Маркетинговые стратегии</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Разработка и сопровождение маркетинговых стратегий для американских политиков и крупного бизнеса. Запуск и продюсирование подкастов, сопровождение предвыборных кампаний, реализация рекламных и социальных кампаний.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Подкасты</span>
+                            <span class="tech-tag">Политика США</span>
+                            <span class="tech-tag">Маркетинг</span>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/qMJcDnLy/Vladimir.jpg" alt="Владимир Раевский" class="client-header-bg">
+                        <h3 class="client-name">Владимир Раевский</h3>
+                        <p class="client-project">Контент-продакшн</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Создание авторских сценариев, профессиональный монтаж и комплексное продвижение контента. Разработка уникального визуального стиля, обеспечившего узнаваемость бренда.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Сценарии</span>
+                            <span class="tech-tag">Монтаж</span>
+                            <span class="tech-tag">Продвижение</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/TDSM6rd5/Dmitry.jpg" alt="Дмитрий Гудков" class="client-header-bg">
+                        <h3 class="client-name">Дмитрий Гудков</h3>
+                        <p class="client-project">Медийное сопровождение</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Продакшн полного цикла для политического деятеля. Разработка контент-стратегии для TikTok и YouTube, создание вирусного контента, привлекшего миллионы просмотров. Построение системы регулярного производства видео, от сценариев до постпродакшна.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">TikTok</span>
+                            <span class="tech-tag">YouTube</span>
+                            <span class="tech-tag">Продакшн</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/rRBvCkRd/Ivan.jpg" alt="Иван Жданов" class="client-header-bg">
+                        <h3 class="client-name">Самое Важное <br> с Иваном Ждановым</h3>
+                        <p class="client-project">Перезапуск личного бренда</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Полная трансформация медийного образа. Разработка новой стратегии с учетом меняющегося информационного ландшафта. Продакшн полного цикла, создание и продвижение контента на YouTube и Patreon. Увеличение аудитории в 3 раза за первый год.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">YouTube</span>
+                            <span class="tech-tag">Patreon</span>
+                            <span class="tech-tag">Стратегия</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/HpHf84fq/avtozak.jpg" alt="Avtozak LIVE" class="client-header-bg">
+                        <h3 class="client-name">Avtozak LIVE</h3>
+                        <p class="client-project">Системный краудфандинг</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Крупнейший правозащитный медиа-проект. Построение системы краудфандинга с акцентом на регулярных доноров. Разработка added value propositions, креативных кампаний, лендингов. Результат — выполнение финансовых целей и создание устойчивой базы для развития.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Краудфандинг</span>
+                            <span class="tech-tag">Медиа</span>
+                            <span class="tech-tag">Стратегия</span>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/1GrHH88N/Lev.jpg" alt="Лев Шлосберг" class="client-header-bg">
+                        <h3 class="client-name">Лев Шлосберг</h3>
+                        <p class="client-project">Предвыборная кампания</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Комплексная работа с предвыборными штабами. SEO-продвижение и повышение видимости в поисковых системах. Разработка цифровой стратегии, обеспечившей максимальный охват целевой аудитории в регионе.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">SEO</span>
+                            <span class="tech-tag">Политмаркетинг</span>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co.com/wFmTrjSb/cds.jpg" alt="du soleil" class="client-header-bg">
+                        <h3 class="client-name">Cirque du Soleil</h3>
+                        <p class="client-project">Сопровождение гастролей</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Организация взаимодействия международной технической команды с московскими подрядчиками во время гастролей. Координация всех производственных процессов, языковое сопровождение.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Event</span>
+                            <span class="tech-tag">Продакшн</span>
+							<span class="tech-tag">Логистика</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/7t5vdCLd/fackt.jpg" alt="Factcheck.KZ" class="client-header-bg">
+                        <h3 class="client-name">Factcheck.KZ</h3>
+                        <p class="client-project">Видеоэксплейнеры</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Продюсирование контента полного цикла. Трансформация текстовых материалов в увлекательные видеоэксплейнеры. Разработка сценариев, подбор актеров озвучания, создание анимаций. Увеличение вовлеченности аудитории на 250%.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Анимация</span>
+                            <span class="tech-tag">Монтаж</span>
+                            <span class="tech-tag">Сценарии</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co.com/wFz05Lh4/dl.jpg" alt="Сделай Громче!" class="client-header-bg">
+                        <h3 class="client-name">Сделай Громче!</h3>
+                        <p class="client-project">Сценарное мастерство</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Разработка креативных сценариев для медиапроекта. Создание драматургии, способной удерживать внимание аудитории и генерировать вирусный эффект.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Сценарии</span>
+                            <span class="tech-tag">Креатив</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/bgMRP0xf/Spektr.jpg" alt="Spektr Press" class="client-header-bg">
+                        <h3 class="client-name">Spektr Press</h3>
+                        <p class="client-project">Техническое сопровождение</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Полное техническое сопровождение медиа-издания. Монтаж видео, создание анимаций, разработка сценариев под ключ. Оптимизация производственных процессов, сокращение времени выпуска контента на 40%.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Монтаж</span>
+                            <span class="tech-tag">Анимация</span>
+                            <span class="tech-tag">Техподдержка</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/NnQQ2z5V/kultrassvet.jpg" alt="КУЛЬТРАССВЕТ" class="client-header-bg">
+                        <h3 class="client-name">КУЛЬТРАССВЕТ</h3>
+                        <p class="client-project">Консалтинг и гранты</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Стратегический консалтинг для культурного проекта. Профессиональное сопровождение на грантовые программы, подготовка заявок, разработка концепций. Успешное привлечение финансирования на развитие.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Консалтинг</span>
+                            <span class="tech-tag">Гранты</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/Xw2h7WR/ecg.jpg" alt="East Coast Granite" class="client-header-bg">
+                        <h3 class="client-name">East Coast Granite</h3>
+                        <p class="client-project">Инновационное продвижение</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Разработаны инновационные методы продвижения для компании по обработке камня. Цифровая трансформация традиционного бизнеса, выход на новые рынки через digital-каналы.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Digital</span>
+                            <span class="tech-tag">B2B</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-card">
+                    <div class="client-header">
+                        <img src="https://i.ibb.co/sktVzT3/GID.jpg" alt="GID Renovation" class="client-header-bg">
+                        <h3 class="client-name">GID Renovation</h3>
+                        <p class="client-project">Комплексный маркетинг</p>
+                    </div>
+                    <div class="client-body">
+                        <p class="client-description">
+                            Создание системы привлечения клиентов для строительной компании. Разработка воронок продаж, автоматизация маркетинга, увеличение конверсии в 2.5 раза.
+                        </p>
+                        <div class="client-tech">
+                            <span class="tech-tag">Маркетинг</span>
+                            <span class="tech-tag">Автоматизация</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ещё Клиенты -->
+        <section class="section">
+            <h2 class="section-title">Ещё Клиенты</h2>
+            <div class="partners-grid">
+			    <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/gbDhFNn3/push.png" alt="push" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Александр Пушной</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/S45hK2Mj/muse.png" alt="museum" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Музей Истории ГУЛАГа</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/RkrVM4Fv/fbk.png" alt="ФБК" class="partner-logo">
+                    </div>
+                    <span class="partner-name">ФБК</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/84N7j60d/katz.png" alt="katz" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Городские Проекты</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/84sgfVfV/yabl.png" alt="Яблоко" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Партия «Яблоко»</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/v6KTVbnM/kr.png" alt="kr" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Kids Russia</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/j7t5PKt/ad.png" alt="andrey" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Кампания Андрея Пивоварова</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/bgv3GMxt/nsk.png" alt="nsk" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Коалиция Новосибирск 2020</span>
+                </div>
+			     <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/gb0HRq0h/centr.png" alt="Центр" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Сахаровский Центр</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/N6mr95Sn/tok.png" alt="ta" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Ток Арсенал</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/KzWGSfVW/otkr.png" alt="Открытая Россия" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Открытая Россия</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/ks6gdVPc/frf.png" alt="FRF" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Free Russia Foundation</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/RTS3mKtp/coalition.png" alt="coalition" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Коалиция Против Пропаганды</span>
+                </div>
+				<div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/CpX62bZF/reforumspace-logo-1024x175.png" alt="Reforum Space" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Reforum Space</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Медиапартнёры -->
+        <section class="section">
+            <h2 class="section-title">Медиапартнёры</h2>
+            <div class="partners-grid">
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/TDSWzzYq/forbes.png" alt="Forbes" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Forbes</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/Xk2nkSqg/IZ.png" alt="IZ" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Известия</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/gbD2zxqz/meduza.png" alt="Meduza" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Meduza</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/SjHRJqr/rbk.png" alt="RBK" class="partner-logo">
+                    </div>
+                    <span class="partner-name">РБК</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/W4FFpKBr/spektr.png" alt="Spektr" class="partner-logo">
+                    </div>
+                    <span class="partner-name">SPEKTR.PRESS</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/HfWgq70R/v.png" alt="V" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Ведомости</span>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-logo-wrapper">
+                        <img src="https://i.ibb.co.com/6JXFRBcc/vm.png" alt="VM" class="partner-logo">
+                    </div>
+                    <span class="partner-name">Вечерняя Москва</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section class="contact-section">
+            <p class="contact-info">
+                <a href="mailto:artyomrabotaet@gmail.com">artyomrabotaet@gmail.com</a>
+				<h2 class="contact-info">TG - artyompetukhov</h2>
+            </p>
+            <p class="contact-info">
+				<h2 class="client-description">-</h2>
+				<h2 class="stat-label">Это портфолио предоставлено только для ознакомления <br> и не может быть передано третьим лицам — в целях сохранения <br> конфиденциальности и безопасности наших партнёров.</h2>
+            </p>
+        </section>
+    </div>
+</body>
+</html>
